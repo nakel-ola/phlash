@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Normal font */
+@font-face {
+  font-family: "Verdana";
+  font-weight: 400;
+  font-display: swap;
+  src: local("Verdana"), url("/Verdana.ttf") format("truetype");
+}
+
+/* Bold Font */
+@font-face {
+  font-family: "VerdanaBold";
+  font-weight: 500;
+  font-display: swap;
+  src: local("VerdanaBold"), url("/VerdanaBold.ttf") format("truetype");
+}
+
+@layer base {
+  body {
+    @apply p-0 m-0 bg-white dark:bg-dark font-verdana;
+  }
+  a {
+    @apply text-inherit decoration-transparent;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: all 300ms ease;
+  }
+  *::-webkit-scrollbar {
+    @apply h-[5px] max-w-[5px] bg-transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply w-[5px] rounded-[30px] bg-primary;
+  }
+
+  *::-webkit-scrollbar-track {
+    @apply bg-white dark:bg-dark;
+  }
+
+  *::-webkit-scrollbar-track-piece {
+    @apply bg-white dark:bg-dark;
+  }
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide::-ms-overflow-style {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}

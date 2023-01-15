@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Folder {
+  id       String    @id @unique @default(uuid())
+  name     String
+  userId   String
+  requests Request[]
+}
+
+model Request {
+  id       String     @id @unique @default(uuid())
+  title    String
+  url      String?
+  method   MethodEnum @default(Get)
+  folderId String?
+  userId   String
+  folder   Folder?    @relation(fields: [folderId], references: [id], onDelete: Cascade)
+}
+
+enum MethodEnum {
+  Post
+  Get
+  Put
+  Patch
+  Delete
+}

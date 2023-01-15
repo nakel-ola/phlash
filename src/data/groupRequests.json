@@ -1,0 +1,74 @@
+[
+  {
+    "id": "17728893939277282",
+    "name": "Users",
+    "requests": [
+      {
+        "id": "1939837377899002002",
+        "title": "GetAllUsers",
+        "method": "Get",
+        "url": "http://localhost:4000/user"
+      },
+      {
+        "id": "23663917736367",
+        "title": "Register",
+        "method": "Post",
+        "url": "http://localhost:4000/user/register"
+      },
+      {
+        "id": "383763181918981",
+        "title": "Login",
+        "method": "Post",
+        "url": "http://localhost:4000/user/login"
+      },
+      {
+        "id": "413u73779190800201",
+        "title": "UpdateUser",
+        "method": "Patch",
+        "url": "http://localhost:4000/user/:userId"
+      },
+      {
+        "id": "5818369919jee",
+        "title": "DeleteUser",
+        "method": "Delete",
+        "url": "http://localhost:4000/user/:userId"
+      }
+    ]
+  },
+  {
+    "id": "28633817199138931981",
+    "name": "Posts",
+    "requests": [
+      {
+        "id": "1818737ueuy181991",
+        "title": "GetAllPost",
+        "method": "Get",
+        "url": "http://localhost:4000/posts"
+      },
+      {
+        "id": "29919383883uejnnnd",
+        "title": "GetPost",
+        "method": "Post",
+        "url": "http://localhost:4000/post/:postId"
+      },
+      {
+        "id": "3187377373yehyue91991",
+        "title": "CreatePost",
+        "method": "Post",
+        "url": "http://localhost:4000/post/create"
+      },
+      {
+        "id": "4010928838uehhd",
+        "title": "UpdatePost",
+        "method": "Patch",
+        "url": "http://localhost:4000/post/:postId"
+      },
+      {
+        "id": "50933388ueeyeyey",
+        "title": "DeletePost",
+        "method": "Delete",
+        "url": "http://localhost:4000/post/:userId"
+      }
+    ]
+  }
+]
