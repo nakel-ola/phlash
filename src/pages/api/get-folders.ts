@@ -1,9 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Folder, Request } from "@prisma/client";
-import { parse } from "cookie";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../prisma";
-import { key } from "./cookie";
 
 type Data = Folder & {
   requests: Request[];
@@ -19,11 +17,12 @@ export default async function handler(
 ) {
   try {
     if (req.method !== "GET")
-      res.status(405).json({ message: "Method not supported" });
+      return res.status(405).json({ message: "Method not supported" });
 
-    const userId = getId(req);
+    const userId = req.query?.userId?.toString();
 
-    if (!userId) res.status(403).json({ message: "Something went wrong" });
+    if (!userId)
+      return res.status(403).json({ message: "Something went wrong" });
 
     const data = await prisma.folder.findMany({
       where: { userId },
@@ -35,5 +34,3 @@ export default async function handler(
     console.log(error);
   }
 }
-
-export const getId = (req: NextApiRequest) => parse(req.headers.cookie!)[key];

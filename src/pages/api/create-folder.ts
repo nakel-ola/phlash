@@ -3,7 +3,7 @@ import { Folder, Request } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../prisma";
 import clean from "../../utils/clean";
-import { ErrorMsg, getId } from "./get-folders";
+import { ErrorMsg } from "./get-folders";
 
 type Data = Folder & {
   requests: Request[];
@@ -15,12 +15,10 @@ export default async function handler(
 ) {
   try {
     if (req.method !== "POST")
-      res.status(405).json({ message: "Method not supported" });
+      return res.status(405).json({ message: "Method not supported" });
 
-    const userId = getId(req);
-    if (!userId) res.status(403).json({ message: "Something went wrong" });
-
-    const { groupName, title, method, url } = req.body;
+    const { groupName, title, method, url, userId } = req.body;
+    if (!userId) return res.status(403).json({ message: "Something went wrong" });
 
     const data = await prisma.folder.create({
       data: {

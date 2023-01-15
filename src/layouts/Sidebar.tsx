@@ -15,6 +15,7 @@ import {
   createGroups,
   selectGroupRequests,
 } from "../redux/features/requestsSlice";
+import { selectUserId } from "../redux/features/userSlice";
 
 const AddCard = dynamic(() => import("../features/sidebar/AddCard"), {
   ssr: false,
@@ -37,6 +38,7 @@ export default function Sidebar() {
   const dispatch = useDispatch();
 
   const isHome = !router.query?.id;
+  const userId = useSelector(selectUserId);
   const [input, setInput] = useState("");
   const [active, setActive] = useState<string | number | null>(null);
   const items = useSelector(selectGroupRequests);
@@ -53,15 +55,15 @@ export default function Sidebar() {
 
   const handleFolders = useCallback(async () => {
     setLoading(true);
-    await axios.get("/api/get-folders").then(({ data }) => {
-      dispatch(createGroups(data));
-    });
+    await axios
+      .get("/api/get-folders", { params: { userId } })
+      .then(({ data }) => dispatch(createGroups(data)));
     setLoading(false);
-  }, [dispatch]);
+  }, [dispatch, userId]);
 
   useEffect(() => {
-    handleFolders();
-  }, [handleFolders]);
+    if (userId) handleFolders();
+  }, [handleFolders, userId]);
 
   return (
     <div

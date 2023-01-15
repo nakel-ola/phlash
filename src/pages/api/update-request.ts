@@ -3,7 +3,6 @@ import { Request } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../prisma";
 import clean from "../../utils/clean";
-import { getId } from "./get-folders";
 
 type Data = {
   message: string;
@@ -15,12 +14,11 @@ export default async function handler(
 ) {
   try {
     if (req.method !== "PATCH")
-      res.status(405).json({ message: "Method not supported" });
+      return res.status(405).json({ message: "Method not supported" });
 
-    const userId = getId(req);
-    if (!userId) res.status(403).json({ message: "Something went wrong" });
-
-    const { id, method, title, url } = req.body;
+    const { id, method, title, url, userId } = req.body;
+    if (!userId)
+      return res.status(403).json({ message: "Something went wrong" });
 
     const data = await prisma.request.update({
       where: {

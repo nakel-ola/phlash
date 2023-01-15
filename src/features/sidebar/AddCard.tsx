@@ -14,6 +14,7 @@ import { createGroup, createRequest } from "../../redux/features/requestsSlice";
 import generateCode from "../../utils/generateCode";
 import isUrl from "../../utils/is-url";
 import { statusColor, statusbg } from "../../utils/statusColor";
+import { selectUserId } from "../../redux/features/userSlice";
 
 interface Props {}
 
@@ -29,6 +30,7 @@ interface Form {
 const AddCard = (props: Props) => {
   let dispatch = useDispatch();
   const dialogState = useSelector(selectDialog);
+  const userId = useSelector(selectUserId);
 
   let ref = useRef<HTMLFormElement>(null);
 
@@ -58,6 +60,7 @@ const AddCard = (props: Props) => {
     }
 
     setLoading(true);
+    console.log(url)
 
     if (dialogState.create.data?.type === "request") {
       let groupId = dialogState.create.data.groupId;
@@ -67,6 +70,7 @@ const AddCard = (props: Props) => {
           method,
           url,
           folderId: groupId,
+          userId
         })
         .then(({ data }) => {
           dispatch(
@@ -82,6 +86,7 @@ const AddCard = (props: Props) => {
           groupName,
           title,
           method,
+          userId,
           url,
         })
         .then(({ data }) => {
@@ -174,6 +179,7 @@ const AddCard = (props: Props) => {
               />
 
               <InputCard
+                id="url"
                 title="Request Url"
                 toggle
                 value={url}

@@ -1,3 +1,4 @@
+import { MethodEnum } from "@prisma/client";
 import axios from "axios";
 import clsx from "clsx";
 import { ArrowDown2 } from "iconsax-react";
@@ -15,10 +16,11 @@ import {
   updateRequest,
 } from "../../redux/features/requestsSlice";
 import { add, toggleLoading } from "../../redux/features/responseSlices";
+import { selectUserId } from "../../redux/features/userSlice";
 import { statusColor, statusbg } from "../../utils/statusColor";
 import { BASE_URL } from "../sidebar/AddCard";
 
-const items = ["Get", "Post", "Patch", "Put", "Delete"];
+const items: MethodEnum[] = ["Get", "Post", "Patch", "Put", "Delete"];
 
 const handleForm = (data: FormBody[]): FormData => {
   let formdata = new FormData();
@@ -56,6 +58,7 @@ interface Props {
 const Navbar = (props: Props) => {
   const { setToggle } = props;
   const requestState = useSelector(selectSelected);
+  const userId = useSelector(selectUserId);
   const requestDataState = useSelector(selectRequestData);
   const dispatch = useDispatch();
   const [input, setInput] = useState(requestState?.url ?? "");
@@ -93,6 +96,7 @@ const Navbar = (props: Props) => {
       .patch(`${BASE_URL}/api/update-request`, {
         url: input,
         id: requestState?.id,
+        userId,
       })
       .then(() => {
         dispatch(
@@ -127,6 +131,23 @@ const Navbar = (props: Props) => {
     }
   }, [requestState]);
 
+  const handleMethod = async (method: MethodEnum) => {
+    dispatch(
+      updateRequest({
+        groupId: requestState?.groupId!,
+        request: {
+          ...requestState!,
+          method,
+        },
+      })
+    );
+    await axios.patch(`${BASE_URL}/api/update-request`, {
+      id: requestState?.id,
+      userId,
+      method,
+    });
+  };
+
   return (
     <div className="flex items-center justify-between p-2 border-b-[1px] border-b-slate-100 dark:border-b-neutral-800">
       <Menu as="div" className="relative inline-block text-left">
@@ -155,7 +176,7 @@ const Navbar = (props: Props) => {
         >
           <Menu.Items className="absolute left-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white dark:bg-neutral-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
             <div className="">
-              {items.map((item, index) => (
+              {items.map((item: MethodEnum, index) => (
                 <Menu.Item key={index}>
                   <a
                     href="#"
@@ -166,17 +187,7 @@ const Navbar = (props: Props) => {
 
                       "block px-4 py-2 text-sm"
                     )}
-                    onClick={() =>
-                      dispatch(
-                        updateRequest({
-                          groupId: requestState?.groupId!,
-                          request: {
-                            ...requestState!,
-                            method: item,
-                          },
-                        })
-                      )
-                    }
+                    onClick={() => handleMethod(item)}
                   >
                     {item}
                   </a>

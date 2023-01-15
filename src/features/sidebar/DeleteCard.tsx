@@ -13,10 +13,13 @@ import {
   deleteRequest,
 } from "../../redux/features/requestsSlice";
 import { BASE_URL } from "./AddCard";
+import { selectUserId } from "../../redux/features/userSlice";
 
 const DeleteCard = () => {
   let dispatch = useDispatch();
   const dialogState = useSelector(selectDialog);
+  const userId = useSelector(selectUserId);
+
   const [loading, setLoading] = useState(false);
 
   let ref = useRef<HTMLDivElement>(null);
@@ -32,15 +35,15 @@ const DeleteCard = () => {
 
     if (dialogState.delete.data.type === "all") {
       await axios
-        .delete(`${BASE_URL}/api/delete-folders`)
+        .delete(`${BASE_URL}/api/delete-folders`, { data: { userId }})
         .then(() => dispatch(deleteAllGroup()));
     } else if (id) {
       await axios
-        .delete(`${BASE_URL}/api/delete-request`, { data: { id } })
+        .delete(`${BASE_URL}/api/delete-request`, { data: { id, userId } })
         .then(() => dispatch(deleteRequest({ groupId, id })));
     } else {
       await axios
-        .delete(`${BASE_URL}/api/delete-folder`, { data: { id: groupId } })
+        .delete(`${BASE_URL}/api/delete-folder`, { data: { id: groupId, userId } })
         .then(() => dispatch(deleteGroup({ groupId })));
     }
 
