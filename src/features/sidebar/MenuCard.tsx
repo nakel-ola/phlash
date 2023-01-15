@@ -5,7 +5,6 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useOutsideClick } from "../../hooks/use-outside-click";
 import { add } from "../../redux/features/dialogSlice";
-import { deleteAllGroup } from "../../redux/features/requestsSlice";
 import { useTheme } from "../../utils/theme";
 
 interface Props {

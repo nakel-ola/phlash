@@ -161,10 +161,10 @@ const MoreCard = ({
                 onClick={onClick}
               >
                 <div className="h-[30px] w-[30px] flex items-center justify-center">
-                  <Icon />
+                  <Icon className="text-black dark:text-white"/>
                 </div>
 
-                <p className="whitespace-nowrap pl-2 text-sm">{name}</p>
+                <p className="whitespace-nowrap pl-2 text-sm text-black dark:text-white">{name}</p>
               </div>
             </Menu.Item>
           ))}

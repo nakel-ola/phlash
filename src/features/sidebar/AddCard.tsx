@@ -17,6 +17,8 @@ import { statusColor, statusbg } from "../../utils/statusColor";
 
 interface Props {}
 
+export let BASE_URL = process.env.BASE_URL;
+
 interface Form {
   method: MethodEnum;
   groupName: string;
@@ -60,7 +62,7 @@ const AddCard = (props: Props) => {
     if (dialogState.create.data?.type === "request") {
       let groupId = dialogState.create.data.groupId;
       await axios
-        .post("/api/create-request", {
+        .post(`${BASE_URL}/api/create-request`, {
           title,
           method,
           url,
@@ -76,7 +78,7 @@ const AddCard = (props: Props) => {
         });
     } else {
       await axios
-        .post("/api/create-folder", {
+        .post(`${BASE_URL}/api/create-folder`, {
           groupName,
           title,
           method,

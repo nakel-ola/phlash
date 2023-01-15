@@ -16,6 +16,7 @@ import {
 } from "../../redux/features/requestsSlice";
 import { add, toggleLoading } from "../../redux/features/responseSlices";
 import { statusColor, statusbg } from "../../utils/statusColor";
+import { BASE_URL } from "../sidebar/AddCard";
 
 const items = ["Get", "Post", "Patch", "Put", "Delete"];
 
@@ -89,7 +90,7 @@ const Navbar = (props: Props) => {
 
     dispatch(toggleLoading({ loading: true }));
     await axios
-      .patch("/api/update-request", {
+      .patch(`${BASE_URL}/api/update-request`, {
         url: input,
         id: requestState?.id,
       })

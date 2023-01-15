@@ -12,6 +12,7 @@ import {
   deleteGroup,
   deleteRequest,
 } from "../../redux/features/requestsSlice";
+import { BASE_URL } from "./AddCard";
 
 const DeleteCard = () => {
   let dispatch = useDispatch();
@@ -31,15 +32,15 @@ const DeleteCard = () => {
 
     if (dialogState.delete.data.type === "all") {
       await axios
-        .delete("/api/delete-folders")
+        .delete(`${BASE_URL}/api/delete-folders`)
         .then(() => dispatch(deleteAllGroup()));
     } else if (id) {
       await axios
-        .delete("/api/delete-request", { data: { id } })
+        .delete(`${BASE_URL}/api/delete-request`, { data: { id } })
         .then(() => dispatch(deleteRequest({ groupId, id })));
     } else {
       await axios
-        .delete("/api/delete-folder", { data: { id: groupId } })
+        .delete(`${BASE_URL}/api/delete-folder`, { data: { id: groupId } })
         .then(() => dispatch(deleteGroup({ groupId })));
     }
 

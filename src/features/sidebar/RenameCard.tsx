@@ -9,6 +9,7 @@ import Loader from "../../components/Loader";
 import { useOutsideClick } from "../../hooks/use-outside-click";
 import { remove, selectDialog } from "../../redux/features/dialogSlice";
 import { updateGroup, updateRequest } from "../../redux/features/requestsSlice";
+import { BASE_URL } from "./AddCard";
 
 const RenameCard = () => {
   let dispatch = useDispatch();
@@ -37,12 +38,12 @@ const RenameCard = () => {
         title: input,
         url: request.url,
       };
-      await axios.patch("/api/update-request", data).then(() => {
+      await axios.patch(`${BASE_URL}/api/update-request`, data).then(() => {
         dispatch(updateRequest({ groupId, request: data }));
       });
     } else {
       await axios
-        .patch("/api/update-folder", { id: groupId, groupName: input })
+        .patch(`${BASE_URL}/api/update-folder`, { id: groupId, groupName: input })
         .then(() => dispatch(updateGroup({ groupId, name: input })));
     }
     close();
