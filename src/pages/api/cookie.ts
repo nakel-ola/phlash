@@ -31,7 +31,7 @@ export default function handler(
         serialize(key, id, {
           path: "/",
           maxAge: 604_800_000,
-          sameSite: production ? "none" : false,
+          sameSite: production ? "lax" : false,
           httpOnly: true,
           secure: production,
         })
