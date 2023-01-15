@@ -23,6 +23,8 @@ export default function handler(
     const authId = parse(req.headers.cookie!)[key];
     const production = process.env.NODE_ENV === "production";
 
+    console.log(production)
+
     if (!authId) {
       res.setHeader(
         "Set-Cookie",
